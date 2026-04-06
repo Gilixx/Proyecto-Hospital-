@@ -3,38 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendario Médico - HospitalDB</title>
+    <title>Agenda Médica - HospitalDB</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/modern-style.css}">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .fc-toolbar-title { font-weight: 600 !important; color: #1e293b; }
-        .fc-button-primary {
-            background-color: #2563eb !important; border-color: #2563eb !important;
-            text-transform: capitalize; border-radius: 6px !important;
+        .fc { --fc-border-color: rgba(0,0,0,0.05); font-family: 'Outfit', sans-serif; }
+        .fc-toolbar-title { font-weight: 800 !important; color: #0f172a !important; font-size: 1.5rem !important; }
+        .fc-button { 
+            background: white !important; 
+            border: 1px solid #e2e8f0 !important; 
+            color: #475569 !important; 
+            font-weight: 700 !important;
+            border-radius: 12px !important;
+            padding: 8px 16px !important;
+            text-transform: capitalize !important;
+            transition: all 0.2s !important;
         }
-        .fc-button-primary:hover { background-color: #1d4ed8 !important; }
-        .fc-event { border: none; border-radius: 4px; padding: 2px 4px; font-size: 0.85rem;}
-        #calendar-container {
-            background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); padding: 20px;
+        .fc-button:hover { background: #f8fafc !important; color: #0ea5e9 !important; }
+        .fc-button-active { background: #0ea5e9 !important; border-color: #0ea5e9 !important; color: white !important; }
+        .fc-event { 
+            background: linear-gradient(135deg, #0ea5e9, #0369a1) !important;
+            border: none !important; 
+            border-radius: 10px !important; 
+            padding: 4px 8px !important; 
+            box-shadow: 0 4px 12px rgba(14,165,233,0.2) !important;
+            font-weight: 600 !important;
         }
+        .fc-col-header-cell { padding: 12px 0 !important; background: #f8fafc; border-bottom: 2px solid #e2e8f0 !important; }
+        .fc-timegrid-slot { height: 4rem !important; }
     </style>
 </head>
-<body class="p-6 h-screen flex flex-col">
+<body class="p-6 md:p-10 h-screen flex flex-col animate-fade-in">
     
-    <header class="flex justify-between items-center mb-6">
+    <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 bg-white/40 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/60 shadow-xl shadow-blue-900/5">
         <div>
-            <h1 class="text-2xl font-bold text-gray-800">Mi Agenda</h1>
-            <p class="text-gray-500">Visualiza y administra tus citas programadas.</p>
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mi Agenda Médica</h1>
+            <p class="text-slate-500 mt-1 font-medium italic">Control visual de tus compromisos profesionales.</p>
         </div>
-        <a href="/logout" class="px-4 py-2 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors">Cerrar Sesión</a>
+        <div class="flex items-center gap-4">
+            <a href="/admin/dashboard" class="px-6 py-3 bg-white border border-blue-100 text-blue-600 rounded-2xl font-bold hover:bg-blue-50 transition-all shadow-sm active:scale-95 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                Panel
+            </a>
+            <a href="/logout" class="px-6 py-3 bg-white border border-red-100 text-red-600 rounded-2xl font-bold hover:bg-red-50 transition-all shadow-sm active:scale-95 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Salir
+            </a>
+        </div>
     </header>
 
-    <div class="flex-grow flex flex-col">
-        <div id="calendar-container" class="flex-grow min-h-0 relative">
-            <div id='calendar' class="h-full"></div>
-        </div>
+    <!-- Messages -->
+    <div th:if="${exito}" class="mb-8 p-5 bg-emerald-50/80 backdrop-blur-md border border-emerald-100 text-emerald-700 rounded-3xl flex items-center gap-4 animate-fade-in shadow-sm" th:text="${exito}"></div>
+    <div th:if="${error}" class="mb-8 p-5 bg-rose-50/80 backdrop-blur-md border border-rose-100 text-rose-700 rounded-3xl flex items-center gap-4 animate-fade-in shadow-sm" th:text="${error}"></div>
+
+    <div class="flex-grow flex flex-col bg-white/40 backdrop-blur-md rounded-[3rem] p-8 border border-white/60 shadow-2xl overflow-hidden">
+        <div id='calendar' class="h-full"></div>
     </div>
 
     <script>
@@ -47,14 +71,21 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día'
+                },
                 locale: 'es',
                 slotMinTime: '06:00:00',
                 slotMaxTime: '22:00:00',
                 allDaySlot: false,
                 events: '/api/citas/mis-citas',
-                eventColor: '#3b82f6',
+                nowIndicator: true,
+                dayMaxEvents: true,
                 eventClick: function(info) {
-                    alert('Cita: ' + info.event.title);
+                    alert('Paciente: ' + info.event.title + '\nHorario: ' + info.event.start.toLocaleTimeString());
                 }
             });
             calendar.render();

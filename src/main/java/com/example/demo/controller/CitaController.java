@@ -34,6 +34,24 @@ public class CitaController {
         return "paciente/agendar";
     }
 
+    @org.springframework.web.bind.annotation.PostMapping("/paciente/agendar")
+    public String guardarCita(@org.springframework.web.bind.annotation.ModelAttribute com.example.demo.dto.CitaDTO citaDTO,
+                              org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
+        try {
+            Optional<Usuario> usuarioOpt = authService.getLoggedUser();
+            if (usuarioOpt.isEmpty()) {
+                return "redirect:/login";
+            }
+            citaService.agendarCita(citaDTO, usuarioOpt.get());
+            redirectAttributes.addFlashAttribute("exito", "¡Cita agendada con éxito! Revisa el calendario abajo.");
+            
+            return "redirect:/doctor/calendario";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al agendar la cita: " + e.getMessage());
+            return "redirect:/paciente/agendar";
+        }
+    }
+
     @GetMapping("/doctor/calendario")
     public String verCalendario() {
         return "doctor/calendario";

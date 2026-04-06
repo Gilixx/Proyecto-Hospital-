@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - HospitalDB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/modern-style.css}">
+</head>
+<body class="p-6 md:p-12 animate-fade-in">
+
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 bg-white/40 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/60 shadow-xl shadow-blue-900/5">
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Panel de Control</h1>
+                <p class="text-slate-500 mt-2 text-lg font-medium">Bienvenido, <span class="text-blue-600">Administrador</span>. ¿Qué gestionaremos hoy?</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="px-8 py-3.5 bg-white border border-red-100 text-red-600 rounded-2xl hover:bg-red-50 transition-all shadow-sm font-bold flex items-center gap-2 active:scale-95">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        Cerrar Sesión
+                    </button>
+                </form>
+            </div>
+        </header>
+
+        <!-- Main Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Doctor Registration -->
+            <a href="/doctor/registro" class="group">
+                <div class="glass-card glass-card-hover p-10 rounded-[2.5rem] h-full flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mb-8 shadow-inner rotate-3 group-hover:rotate-0 transition-transform">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Alta de Médicos</h2>
+                    <p class="text-slate-500 leading-relaxed font-medium">Registra especialistas, define turnos y configura perfiles médicos.</p>
+                    <div class="mt-8 px-6 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        Gestionar Personal
+                    </div>
+                </div>
+            </a>
+
+            <!-- Patient View (Booking) -->
+            <a href="/paciente/agendar" class="group">
+                <div class="glass-card glass-card-hover p-10 rounded-[2.5rem] h-full flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="w-20 h-20 bg-sky-100 text-sky-600 rounded-3xl flex items-center justify-center mb-8 shadow-inner -rotate-3 group-hover:rotate-0 transition-transform">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Agendar Citas</h2>
+                    <p class="text-slate-500 leading-relaxed font-medium">Vista de pacientes para reserva de turnos y búsqueda de doctores.</p>
+                    <div class="mt-8 px-6 py-2 bg-sky-50 text-sky-600 rounded-full text-sm font-bold group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                        Ir a Reservas
+                    </div>
+                </div>
+            </a>
+
+            <!-- Doctor Calendar -->
+            <a href="/doctor/calendario" class="group">
+                <div class="glass-card glass-card-hover p-10 rounded-[2.5rem] h-full flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-3xl flex items-center justify-center mb-8 shadow-inner rotate-6 group-hover:rotate-0 transition-transform">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Agenda Médica</h2>
+                    <p class="text-slate-500 leading-relaxed font-medium">Control visual de horarios y disponibilidad por cada especialista.</p>
+                    <div class="mt-8 px-6 py-2 bg-indigo-50 text-indigo-600 rounded-full text-sm font-bold group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        Ver Calendarios
+                    </div>
+                </div>
+            </a>
+
+            <!-- Doctor Dashboard -->
+            <a href="/doctor/dashboard" class="group lg:col-start-2">
+                <div class="glass-card glass-card-hover p-10 rounded-[2.5rem] h-full flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mb-8 shadow-inner">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Gestión de Citas</h2>
+                    <p class="text-slate-500 leading-relaxed font-medium">Panel principal para médicos: confirmaciones, rechazos y altas médicas.</p>
+                    <div class="mt-8 px-6 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-bold group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        Ir al Dashboard
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</body>
+</html>
