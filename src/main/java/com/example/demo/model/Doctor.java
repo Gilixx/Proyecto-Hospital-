@@ -15,7 +15,7 @@ public class Doctor {
     @Column(name = "id_doctor")
     private Integer idDoctor;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_usuario", nullable = false, unique = true)
     private Usuario usuario;
 

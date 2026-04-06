@@ -25,8 +25,8 @@ public class WebSecurityConfig {
         http
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                .requestMatchers("/login", "/public/**").permitAll()
-                .requestMatchers("/doctor/**").hasAnyRole("MEDICO", "ADMIN")
+                .requestMatchers("/login", "/public/**", "/doctor/registro").permitAll()
+                .requestMatchers("/doctor/**", "/doctor/calendario").hasAnyRole("MEDICO", "ADMIN", "PACIENTE")
                 .requestMatchers("/paciente/**").hasAnyRole("PACIENTE", "ADMIN")
                 .requestMatchers("/citas/**").authenticated()
                 .anyRequest().authenticated()
@@ -42,7 +42,8 @@ public class WebSecurityConfig {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
-            );
+            )
+            .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
